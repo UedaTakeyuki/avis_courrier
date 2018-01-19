@@ -46,23 +46,29 @@ def wait():
   while True:
     try:
       if GPIO.event_detected(35):
-        l.off(0)
-        time.sleep(1)
-        l.on(0)
+        detect_35()
       elif GPIO.event_detected(31):
-        l.off(0)
-        time.sleep(1)
-        l.on(0)
-        time.sleep(1)
-        l.off(0)
-        time.sleep(1)
-        l.on(0)
+        detect_31()
     except:
       info=sys.exc_info()
       print "Unexpected error:"+ traceback.format_exc(info[0])
       print traceback.format_exc(info[1])
       print traceback.format_exc(info[2])
     time.sleep(1)
+
+def detect_35():
+  l.off(0)
+  time.sleep(1)
+  l.on(0)
+
+def detect_31():
+  l.off(0)
+  time.sleep(1)
+  l.on(0)
+  time.sleep(1)
+  l.off(0)
+  time.sleep(1)
+  l.on(0)
 
 def fork():
   pid = os.fork()
