@@ -14,6 +14,7 @@ import ConfigParser
 import requests
 import piserialnumber as ps
 import getrpimodel
+import requests
 
 import perspective
 
@@ -76,6 +77,11 @@ def take_photo():
   command_str = os.path.dirname(os.path.abspath(__file__))+'/photographier.sh '+'v1.tmp.jpg'+' '+'video1'+' 640x480'
   p = subprocess.check_call(command_str, shell=True)
   perspective.transform('v1.tmp.jpg', 'v1.result.jpg', 400, 200, 90)
+
+def avis():
+  server_url = "http://titurel.uedasoft.com/biff/index.test.php"
+  payload = {'serial_id': serialid, 'name': name, 'datetime': now_string, 'data': value}
+  r = requests.post(server_url, data=payload, timeout=10, cert=os.path.dirname(os.path.abspath(__file__))+'/slider.pem', verify=False)
 
 def fork():
   pid = os.fork()
