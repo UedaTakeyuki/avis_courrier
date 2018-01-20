@@ -15,6 +15,8 @@ import requests
 import piserialnumber as ps
 import getrpimodel
 
+import perspective
+
 # RPi 3 は LED1(赤LED)を操作できない
 pi3 = True if getrpimodel.model() == "3 Model B" else False
 
@@ -69,6 +71,11 @@ def detect_31():
   l.off(0)
   time.sleep(1)
   l.on(0)
+
+def take_photo():
+  command_str = os.path.dirname(os.path.abspath(__file__))+'/photographier.sh '+'v1.tmp.jpg'+' '+'video1'+' 640x480'
+  p = subprocess.check_call(command_str, shell=True)
+  perspective.transform('v1.tmp.jpg', 'v1.result.jpg', 400, 200, 90)
 
 def fork():
   pid = os.fork()
