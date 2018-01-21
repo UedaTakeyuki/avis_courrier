@@ -9,6 +9,7 @@ import traceback
 import sys
 import RPi.GPIO as GPIO
 import time
+import datetime 
 
 import ConfigParser
 import requests
@@ -73,15 +74,23 @@ def detect_31():
   time.sleep(1)
   l.on(0)
 
-def take_photo():
-  command_str = os.path.dirname(os.path.abspath(__file__))+'/photographier.sh '+'v1.tmp.jpg'+' '+'video1'+' 640x480'
+def take_photo(filename, device, size):
+#  command_str = os.path.dirname(os.path.abspath(__file__))+'/photographier.sh '+'v1.tmp.jpg'+' '+'video1'+' 640x480'
+  command_str = os.path.dirname(os.path.abspath(__file__))+'/photographier.sh '+filename+'.tmp'+' '+device+' '+size
   p = subprocess.check_call(command_str, shell=True)
-  perspective.transform('v1.tmp.jpg', 'v1.result.jpg', 400, 200, 90)
+  perspective.transform(filename+'.tmp', filename, 400, 200, 90)
 
 def avis():
   server_url = "http://titurel.uedasoft.com/biff/index.test.php"
-  payload = {'serial_id': serialid, 'name': name, 'datetime': now_string, 'data': value}
-  r = requests.post(server_url, data=payload, timeout=10, cert=os.path.dirname(os.path.abspath(__file__))+'/slider.pem', verify=False)
+  now = datetime.datetime.now() # 時刻の取得
+  now_string = now.strftime("%Y/%m/%d %H:%M:%S")
+  filename = "v1."+now.strftime("%Y.%m.%d.%H%M%S")+".jpg"
+  print filename
+  take_photo(filename, "video1", "640x480")
+  files = {'upfile': open(filename, 'rb')}
+#  payload = {'serial_id': serialid, 'device': device, 'datetime': now_string}
+  payload = {}
+  r = requests.post(server_url, data=payload, files=files, timeout=10, cert=os.path.dirname(os.path.abspath(__file__))+'/slider.pem', verify=False)
 
 def fork():
   pid = os.fork()
