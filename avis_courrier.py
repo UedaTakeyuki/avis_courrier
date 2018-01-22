@@ -43,10 +43,37 @@ def wait():
   GPIO.setup(31, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
   GPIO.add_event_detect(31, GPIO.RISING)
   # 29(out, 1),27(in, 0)
+#  GPIO.setup(29, GPIO.OUT)
+#  GPIO.output(29, GPIO.HIGH)
+#  GPIO.setup(27, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+#  GPIO.add_event_detect(27, GPIO.RISING)
   # 23(out, 1),21(in, 0)
+#  GPIO.setup(23, GPIO.OUT)
+#  GPIO.output(23, GPIO.HIGH)
+#  GPIO.setup(21, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+#  GPIO.add_event_detect(21, GPIO.RISING)
   # 15(out, 1),13(in, 0)
+  GPIO.setup(15, GPIO.OUT)
+  GPIO.output(15, GPIO.HIGH)
+  GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+  GPIO.add_event_detect(13, GPIO.RISING)
   #  5(out, 1), 3(in, 0)
-  # 37(out, 1),35(in, 0)
+  GPIO.setup(5, GPIO.OUT)
+  GPIO.output(5, GPIO.HIGH)
+  GPIO.setup(3, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+  GPIO.add_event_detect(3, GPIO.RISING)
+
+  # 40(out, 1),38(in, 0)
+  GPIO.setup(40, GPIO.OUT)
+  GPIO.output(40, GPIO.HIGH)
+  GPIO.setup(38, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+  GPIO.add_event_detect(38, GPIO.RISING)
+  # 18(out, 1),16(in, 0)
+  GPIO.setup(18, GPIO.OUT)
+  GPIO.output(18, GPIO.HIGH)
+  GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+  GPIO.add_event_detect(16, GPIO.RISING)
+
   while True:
     try:
       if GPIO.event_detected(35):
@@ -84,9 +111,9 @@ def avis():
   server_url = "http://titurel.uedasoft.com/biff/index.test.php"
   now = datetime.datetime.now() # 時刻の取得
   now_string = now.strftime("%Y/%m/%d %H:%M:%S")
-  filename = "v1."+now.strftime("%Y.%m.%d.%H%M%S")+".jpg"
+  filename = now.strftime("%Y.%m.%d.%H%M%S")+".jpg"
   print filename
-  take_photo(filename, "video1", "640x480")
+  take_photo(filename, "video0", "640x480")
   files = {'upfile': open(filename, 'rb')}
 #  payload = {'serial_id': serialid, 'device': device, 'datetime': now_string}
   payload = {}
