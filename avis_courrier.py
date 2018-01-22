@@ -1,6 +1,7 @@
 # coding:utf-8 Copy Right Atelier Grenouille © 2018 -
 #
 import os
+import shutil
 import subprocess
 import importlib
 import led
@@ -106,19 +107,22 @@ def take_photo(filename, device, size):
   command_str = os.path.dirname(os.path.abspath(__file__))+'/photographier.sh '+filename+'.tmp'+' '+device+' '+size
   p = subprocess.check_call(command_str, shell=True)
   perspective.transform(filename+'.tmp', filename, 400, 200, 90)
+  os.remove(filename+'.tmp')
 
 def avis():
   server_url = "http://titurel.uedasoft.com/biff/index.test.php"
   now = datetime.datetime.now() # 時刻の取得
   now_string = now.strftime("%Y/%m/%d %H:%M:%S")
   filename = now.strftime("%Y.%m.%d.%H%M%S")+".jpg"
-  print filename
+#  print filename
   take_photo(filename, "video0", "640x480")
   files = {'upfile': open(filename, 'rb')}
 #  payload = {'serial_id': serialid, 'device': device, 'datetime': now_string}
-  payload = {}
+  payload = {'usename': 'yes'}
   r = requests.post(server_url, data=payload, files=files, timeout=10, cert=os.path.dirname(os.path.abspath(__file__))+'/slider.pem', verify=False)
-
+  if not os.path.exists("/boot/DATA/biff"):
+    os.makedirs("/boot/DATA/biff")
+  shutil.move(filename,"/boot/DATA/biff/"+filename)
 def fork():
   pid = os.fork()
   if pid > 0:
