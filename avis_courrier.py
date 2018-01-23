@@ -123,6 +123,10 @@ def avis():
   if not os.path.exists("/boot/DATA/biff"):
     os.makedirs("/boot/DATA/biff")
   shutil.move(filename,"/boot/DATA/biff/"+filename)
+
+  server_url = "http://titurel.uedasoft.com/biff/send.test.php"
+  payload = {'to': 'ueda', 'filename': filename, 'now': now_string}
+  r = requests.post(server_url, data=payload, files=files, timeout=10, cert=os.path.dirname(os.path.abspath(__file__))+'/slider.pem', verify=False)
 def fork():
   pid = os.fork()
   if pid > 0:
