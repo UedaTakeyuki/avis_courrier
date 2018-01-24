@@ -126,6 +126,9 @@ def take_photo(filename, device, size):
   os.remove(filename+'.tmp')
 
 def avis(to, script):
+  l.off(0)
+  time.sleep(1)
+  l.on(0)
   server_url = "http://titurel.uedasoft.com/biff/index.test.php"
   now = datetime.datetime.now() # 時刻の取得
   now_string = now.strftime("%Y/%m/%d %H:%M:%S")
