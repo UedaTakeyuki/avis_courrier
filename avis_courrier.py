@@ -77,30 +77,46 @@ def wait():
 
   while True:
     try:
+      print "before detect"
       if GPIO.event_detected(35):
         detect_35()
       elif GPIO.event_detected(31):
         detect_31()
+      elif GPIO.event_detected(13):
+        detect_13()
+      elif GPIO.event_detected(3):
+        detect_3()
+      elif GPIO.event_detected(38):
+        detect_38()
+      elif GPIO.event_detected(16):
+        print "detect 16"
+        detect_16()
     except:
       info=sys.exc_info()
       print "Unexpected error:"+ traceback.format_exc(info[0])
       print traceback.format_exc(info[1])
       print traceback.format_exc(info[2])
+    print "sleep"
     time.sleep(1)
 
 def detect_35():
-  l.off(0)
-  time.sleep(1)
-  l.on(0)
-
+#  avis('', 'send.php')
+  pass
 def detect_31():
-  l.off(0)
-  time.sleep(1)
-  l.on(0)
-  time.sleep(1)
-  l.off(0)
-  time.sleep(1)
-  l.on(0)
+#  avis('', 'send.php')
+  pass
+def detect_13():
+#  avis('', 'send.php')
+  pass
+def detect_3():
+#  avis('', 'send.php')
+  pass
+def detect_38():
+#  avis('', 'send.php')
+  pass
+def detect_16():
+  avis('ueda', 'send.test.php')
+#  avis('yamazaki', 'send.php')
 
 def take_photo(filename, device, size):
 #  command_str = os.path.dirname(os.path.abspath(__file__))+'/photographier.sh '+'v1.tmp.jpg'+' '+'video1'+' 640x480'
@@ -109,24 +125,29 @@ def take_photo(filename, device, size):
   perspective.transform(filename+'.tmp', filename, 400, 200, 90)
   os.remove(filename+'.tmp')
 
-def avis():
+def avis(to, script):
   server_url = "http://titurel.uedasoft.com/biff/index.test.php"
   now = datetime.datetime.now() # 時刻の取得
   now_string = now.strftime("%Y/%m/%d %H:%M:%S")
   filename = now.strftime("%Y.%m.%d.%H%M%S")+".jpg"
-#  print filename
   take_photo(filename, "video0", "640x480")
+  print "take photo end"
   files = {'upfile': open(filename, 'rb')}
-#  payload = {'serial_id': serialid, 'device': device, 'datetime': now_string}
   payload = {'usename': 'yes'}
   r = requests.post(server_url, data=payload, files=files, timeout=10, cert=os.path.dirname(os.path.abspath(__file__))+'/slider.pem', verify=False)
+#  command_str = 'curl -F "data=@/home/pi/SCRIPT/avis_courrier/'+filename+'"' + ' -F "usename=yes" http://titurel.uedasoft.com/biff/index.test.php'
+#  p = subprocess.check_call(command_str, shell=True)
+  print "photo sent"
   if not os.path.exists("/boot/DATA/biff"):
     os.makedirs("/boot/DATA/biff")
   shutil.move(filename,"/boot/DATA/biff/"+filename)
+  print "photo moved"
 
-  server_url = "http://titurel.uedasoft.com/biff/send.test.php"
-  payload = {'to': 'ueda', 'filename': filename, 'now': now_string}
-  r = requests.post(server_url, data=payload, files=files, timeout=10, cert=os.path.dirname(os.path.abspath(__file__))+'/slider.pem', verify=False)
+  server_url = "http://titurel.uedasoft.com/biff/"+script
+  payload2 = {'to': to, 'filename': filename, 'now': now_string}
+  r = requests.post(server_url, data=payload2, timeout=10, cert=os.path.dirname(os.path.abspath(__file__))+'/slider.pem', verify=False)
+  print "avis end"
+
 def fork():
   pid = os.fork()
   if pid > 0:
