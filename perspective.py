@@ -3,7 +3,6 @@ import cv2
 import numpy as np
 
 def transform(ifile,ofile,left,right,depth):
-#	img = cv2.imread('1.jpg',1)
 	img = cv2.imread(ifile,1)
 	rows,cols,ch = img.shape
 
@@ -17,9 +16,6 @@ def transform(ifile,ofile,left,right,depth):
 	dst = cv2.warpPerspective(img,M,(cols,rows))
 
 	cv2.imwrite(ofile,dst)
-
-	cv2.waitKey(0)
-	cv2.destroyAllWindows()
 
 if __name__ == '__main__':
 	transform('v1_06.jpg', 'result.jpg', 400, 200, 90)
