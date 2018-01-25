@@ -43,32 +43,22 @@ def wait():
   GPIO.output(33, GPIO.HIGH)
   GPIO.setup(31, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
   GPIO.add_event_detect(31, GPIO.RISING)
-  # 29(out, 1),27(in, 0)
-#  GPIO.setup(29, GPIO.OUT)
-#  GPIO.output(29, GPIO.HIGH)
-#  GPIO.setup(27, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-#  GPIO.add_event_detect(27, GPIO.RISING)
-  # 23(out, 1),21(in, 0)
-#  GPIO.setup(23, GPIO.OUT)
-#  GPIO.output(23, GPIO.HIGH)
-#  GPIO.setup(21, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-#  GPIO.add_event_detect(21, GPIO.RISING)
   # 15(out, 1),13(in, 0)
   GPIO.setup(15, GPIO.OUT)
   GPIO.output(15, GPIO.HIGH)
   GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
   GPIO.add_event_detect(13, GPIO.RISING)
-  #  5(out, 1), 3(in, 0)
-  GPIO.setup(5, GPIO.OUT)
-  GPIO.output(5, GPIO.HIGH)
-  GPIO.setup(3, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-  GPIO.add_event_detect(3, GPIO.RISING)
 
   # 40(out, 1),38(in, 0)
   GPIO.setup(40, GPIO.OUT)
   GPIO.output(40, GPIO.HIGH)
   GPIO.setup(38, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
   GPIO.add_event_detect(38, GPIO.RISING)
+  # 32(out, 1),29(in, 0)
+  GPIO.setup(32, GPIO.OUT)
+  GPIO.output(32, GPIO.HIGH)
+  GPIO.setup(29, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+  GPIO.add_event_detect(29, GPIO.RISING)
   # 18(out, 1),16(in, 0)
   GPIO.setup(18, GPIO.OUT)
   GPIO.output(18, GPIO.HIGH)
@@ -84,39 +74,48 @@ def wait():
         detect_31()
       elif GPIO.event_detected(13):
         detect_13()
-      elif GPIO.event_detected(3):
-        detect_3()
       elif GPIO.event_detected(38):
         detect_38()
+      elif GPIO.event_detected(29):
+        detect_29()
       elif GPIO.event_detected(16):
-        print "detect 16"
         detect_16()
     except:
       info=sys.exc_info()
       print "Unexpected error:"+ traceback.format_exc(info[0])
       print traceback.format_exc(info[1])
       print traceback.format_exc(info[2])
-    print "sleep"
     time.sleep(1)
 
 def detect_35():
-#  avis('', 'send.php')
+  blink()
+  #  avis('zenin', 'send.php')
   pass
 def detect_31():
-#  avis('', 'send.php')
+  blink()
+#  avis('koike', 'send.php')
   pass
 def detect_13():
-#  avis('', 'send.php')
-  pass
-def detect_3():
-#  avis('', 'send.php')
+  blink()
+#  avis('iwasaki', 'send.php')
   pass
 def detect_38():
-#  avis('', 'send.php')
+  blink()
+#  avis('sekine', 'send.php')
+  pass
+def detect_29():
+  blink()
+#  avis('tomari', 'send.php')
   pass
 def detect_16():
+  blink()
   avis('ueda', 'send.test.php')
 #  avis('yamazaki', 'send.php')
+
+def blink():
+  l.off(0)
+  time.sleep(1)
+  l.on(0)
 
 def take_photo(filename, device, size):
 #  command_str = os.path.dirname(os.path.abspath(__file__))+'/photographier.sh '+'v1.tmp.jpg'+' '+'video1'+' 640x480'
@@ -126,9 +125,6 @@ def take_photo(filename, device, size):
   os.remove(filename+'.tmp')
 
 def avis(to, script):
-  l.off(0)
-  time.sleep(1)
-  l.on(0)
   server_url = "http://titurel.uedasoft.com/biff/index.test.php"
   now = datetime.datetime.now() # 時刻の取得
   now_string = now.strftime("%Y/%m/%d %H:%M:%S")
