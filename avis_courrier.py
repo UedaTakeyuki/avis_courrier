@@ -33,74 +33,81 @@ l.use(0) # green
 pi3 or l.use(1) # red
 
 def wait():
-  # 37(out, 1),35(in, 0)
-  GPIO.setup(37, GPIO.OUT)
-  GPIO.output(37, GPIO.HIGH)
-  GPIO.setup(35, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-  GPIO.add_event_detect(35, GPIO.RISING)
-  # 33(out, 1),31(in, 0)
-  GPIO.setup(33, GPIO.OUT)
-  GPIO.output(33, GPIO.HIGH)
-  GPIO.setup(31, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-  GPIO.add_event_detect(31, GPIO.RISING)
-  # 15(out, 1),13(in, 0)
-  GPIO.setup(15, GPIO.OUT)
-  GPIO.output(15, GPIO.HIGH)
-  GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-  GPIO.add_event_detect(13, GPIO.RISING)
+  GPIO.setup(37, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+  GPIO.setup(35, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+  GPIO.setup(33, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+  GPIO.setup(31, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+  GPIO.add_event_detect(37, GPIO.FALLING)
+  GPIO.add_event_detect(35, GPIO.FALLING)
+  GPIO.add_event_detect(33, GPIO.FALLING)
+  GPIO.add_event_detect(31, GPIO.FALLING)
 
-  # 40(out, 1),38(in, 0)
-  GPIO.setup(40, GPIO.OUT)
-  GPIO.output(40, GPIO.HIGH)
-  GPIO.setup(38, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-  GPIO.add_event_detect(38, GPIO.RISING)
-  # 32(out, 1),29(in, 0)
-  GPIO.setup(32, GPIO.OUT)
-  GPIO.output(32, GPIO.HIGH)
-  GPIO.setup(29, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-  GPIO.add_event_detect(29, GPIO.RISING)
-  # 18(out, 1),16(in, 0)
-  GPIO.setup(18, GPIO.OUT)
-  GPIO.output(18, GPIO.HIGH)
-  GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-  GPIO.add_event_detect(16, GPIO.RISING)
+  GPIO.setup(12, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+  GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+  GPIO.setup(8, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+  GPIO.add_event_detect(12, GPIO.FALLING)
+  GPIO.add_event_detect(10, GPIO.FALLING)
+  GPIO.add_event_detect(8, GPIO.FALLING)
 
+#  GPIO.setup(28, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+  GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+  GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+  GPIO.setup(22, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+#  GPIO.add_event_detect(28, GPIO.FALLING)
+  GPIO.add_event_detect(26, GPIO.FALLING)
+  GPIO.add_event_detect(24, GPIO.FALLING)
+  GPIO.add_event_detect(22, GPIO.FALLING)
   while True:
     try:
       print "before detect"
-      if GPIO.event_detected(35):
+      if GPIO.event_detected(37):
+        detect_37()
+      elif GPIO.event_detected(35):
         detect_35()
+      elif GPIO.event_detected(33):
+        detect_33()
       elif GPIO.event_detected(31):
         detect_31()
-      elif GPIO.event_detected(13):
-        detect_13()
-      elif GPIO.event_detected(38):
-        detect_38()
-      elif GPIO.event_detected(29):
-        detect_29()
-      elif GPIO.event_detected(16):
-        detect_16()
+      elif GPIO.event_detected(12):
+        print("12")
+      elif GPIO.event_detected(10):
+        print("10")
+      elif GPIO.event_detected(8):
+        print("8")
+
+#      elif GPIO.event_detected(28):
+#        print("28")
+      elif GPIO.event_detected(26):
+        print("26")
+      elif GPIO.event_detected(24):
+        print("24")
+      elif GPIO.event_detected(22):
+        print("22")
     except:
       info=sys.exc_info()
       print "Unexpected error:"+ traceback.format_exc(info[0])
       print traceback.format_exc(info[1])
       print traceback.format_exc(info[2])
-    time.sleep(1)
+    time.sleep(2)
 
+def detect_37():
+  blink()
+  print("37")
+#  avis('zenin', 'send.php')
+  pass
 def detect_35():
   blink()
-  #  avis('zenin', 'send.php')
+  print("35")
+#  avis('koike', 'send.php')
+  pass
+def detect_33():
+  blink()
+  print("33")
+#  avis('iwasaki', 'send.php')
   pass
 def detect_31():
   blink()
-#  avis('koike', 'send.php')
-  pass
-def detect_13():
-  blink()
-#  avis('iwasaki', 'send.php')
-  pass
-def detect_38():
-  blink()
+  print("31")
 #  avis('sekine', 'send.php')
   pass
 def detect_29():
@@ -109,7 +116,7 @@ def detect_29():
   pass
 def detect_16():
   blink()
-  avis('ueda', 'send.test.php')
+#  avis('ueda', 'send.test.php')
 #  avis('yamazaki', 'send.php')
 
 def blink():
@@ -159,4 +166,5 @@ def fork():
     wait()
 
 if __name__ == '__main__':
-  print fork()
+#  print fork()
+  wait()
