@@ -3,7 +3,7 @@
 import os
 import shutil
 import subprocess
-import importlib
+import logging
 import led
 
 import traceback
@@ -19,6 +19,9 @@ import getrpimodel
 import requests
 
 import perspective
+
+# logging
+logging.basicConfig(format='%(asctime)s %(filename)s %(lineno)d %(levelname)s %(message)s',filename='/var/log/SCRIPT/avis_courrie.log',level=logging.DEBUG)
 
 # RPi 3 は LED1(赤LED)を操作できない
 pi3 = True if getrpimodel.model() == "3 Model B" else False
@@ -50,39 +53,48 @@ def wait():
   GPIO.add_event_detect(8, GPIO.FALLING)
 
 #  GPIO.setup(28, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-  GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+  '''  GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP)
   GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-  GPIO.setup(22, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+  GPIO.setup(22, GPIO.IN, pull_up_down=GPIO.PUD_UP)'''
 #  GPIO.add_event_detect(28, GPIO.FALLING)
-  GPIO.add_event_detect(26, GPIO.FALLING)
+  '''  GPIO.add_event_detect(26, GPIO.FALLING)
   GPIO.add_event_detect(24, GPIO.FALLING)
-  GPIO.add_event_detect(22, GPIO.FALLING)
+  GPIO.add_event_detect(22, GPIO.FALLING)'''
   while True:
     try:
-      print "before detect"
       if GPIO.event_detected(37):
+        logging.info("detect 37")
         detect_37()
       elif GPIO.event_detected(35):
+        logging.info("detect 35")
         detect_35()
       elif GPIO.event_detected(33):
+        logging.info("detect 33")
         detect_33()
       elif GPIO.event_detected(31):
+        logging.info("detect 31")
         detect_31()
       elif GPIO.event_detected(12):
-        print("12")
+        logging.info("detect 12")
+        detect_12()
       elif GPIO.event_detected(10):
-        print("10")
+        logging.info("detect 10")
+        detect_10()
       elif GPIO.event_detected(8):
+        logging.info("detect 8")
         print("8")
 
 #      elif GPIO.event_detected(28):
 #        print("28")
-      elif GPIO.event_detected(26):
+      '''      elif GPIO.event_detected(26):
+        logging.info("detect 26")
         print("26")
       elif GPIO.event_detected(24):
+        logging.info("detect 24")
         print("24")
       elif GPIO.event_detected(22):
-        print("22")
+        logging.info("detect 22")
+        print("22")'''
     except:
       info=sys.exc_info()
       print "Unexpected error:"+ traceback.format_exc(info[0])
@@ -110,11 +122,13 @@ def detect_31():
   print("31")
 #  avis('sekine', 'send.php')
   pass
-def detect_29():
+def detect_12():
   blink()
+  print("12")
 #  avis('tomari', 'send.php')
   pass
-def detect_16():
+def detect_10():
+  print("10")
   blink()
 #  avis('ueda', 'send.test.php')
 #  avis('yamazaki', 'send.php')
