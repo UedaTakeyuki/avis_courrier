@@ -1,0 +1,23 @@
+[proxy]
+# Set proxy infomation
+#http_proxy=
+#https_proxy=
+
+[photo]
+# Set picture size
+size=640x480
+#size=1920x1080
+
+[perspective]
+# Set top-left, top-right, and depth of perspective transformation.
+left=400
+#left=1000
+#left=4500
+
+right=200
+#right=800
+#right=1300
+
+depth=90
+#depth=120
+#depth=700
