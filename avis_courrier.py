@@ -39,6 +39,10 @@ l = led.LED()
 l.use(0) # green
 pi3 or l.use(1) # red
 
+# ライトの設定
+GPIO.setup(36, GPIO.OUT)
+GPIO.output(36, GPIO.LOW) # 撮影時以外は消灯
+
 def wait():
   GPIO.setup(37, GPIO.IN, pull_up_down=GPIO.PUD_UP)
   GPIO.setup(35, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -145,7 +149,9 @@ def blink():
 def take_photo(filename, device, size):
   global ini
   command_str = os.path.dirname(os.path.abspath(__file__))+'/photographier.sh '+filename+'.tmp'+' '+device+' '+size
+  GPIO.output(36, GPIO.HIGH) # 撮影のために点灯
   p = subprocess.check_call(command_str, shell=True)
+  GPIO.output(36, GPIO.LOW)  # 撮影後は消灯
   perspective.transform(filename+'.tmp', 
                         filename, 
                         int(ini.get("perspective", "left")), 
