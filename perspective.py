@@ -18,4 +18,6 @@ def transform(ifile,ofile,left,right,depth):
 	cv2.imwrite(ofile,dst)
 
 if __name__ == '__main__':
-	transform('v1_06.jpg', 'result.jpg', 400, 200, 90)
+#	transform('v1_06.jpg', 'result.jpg', 400, 200, 90)
+#	transform('a.640x480.jpg', 'result.jpg', 1000, 800, 120)
+	transform('a.1920x1080.jpg', 'result.jpg', 4500, 1300, 700)

@@ -23,9 +23,13 @@ import perspective
 # logging
 logging.basicConfig(format='%(asctime)s %(filename)s %(lineno)d %(levelname)s %(message)s',filename='/var/log/SCRIPT/avis_courrie.log',level=logging.DEBUG)
 
+# config
+configfile = "/boot/avis_courrier.ini"
+ini = ConfigParser.SafeConfigParser()
+ini.read(configfile)
+
 # RPi 3 は LED1(赤LED)を操作できない
 pi3 = True if getrpimodel.model() == "3 Model B" else False
-
 
 # GPIO の設定
 GPIO.setmode(GPIO.BOARD)
@@ -105,32 +109,32 @@ def wait():
 def detect_37():
   blink()
   print("37")
-#  avis('zenin', 'send.php')
+  avis('zenin', 'send.php')
   pass
 def detect_35():
   blink()
   print("35")
-#  avis('koike', 'send.php')
+  avis('koike', 'send.php')
   pass
 def detect_33():
   blink()
   print("33")
-#  avis('iwasaki', 'send.php')
+  avis('iwasaki', 'send.php')
   pass
 def detect_31():
   blink()
   print("31")
-#  avis('sekine', 'send.php')
+  avis('sekine', 'send.php')
   pass
 def detect_12():
   blink()
   print("12")
-#  avis('tomari', 'send.php')
+  avis('tomari', 'send.php')
   pass
 def detect_10():
   print("10")
   blink()
-#  avis('ueda', 'send.test.php')
+  avis('ueda', 'send.test.php')
 #  avis('yamazaki', 'send.php')
 
 def blink():
@@ -139,22 +143,35 @@ def blink():
   l.on(0)
 
 def take_photo(filename, device, size):
-#  command_str = os.path.dirname(os.path.abspath(__file__))+'/photographier.sh '+'v1.tmp.jpg'+' '+'video1'+' 640x480'
+  global ini
   command_str = os.path.dirname(os.path.abspath(__file__))+'/photographier.sh '+filename+'.tmp'+' '+device+' '+size
   p = subprocess.check_call(command_str, shell=True)
-  perspective.transform(filename+'.tmp', filename, 400, 200, 90)
+  perspective.transform(filename+'.tmp', 
+                        filename, 
+                        int(ini.get("perspective", "left")), 
+                        int(ini.get("perspective", "right")), 
+                        int(ini.get("perspective", "depth"))
+                        )
   os.remove(filename+'.tmp')
 
 def avis(to, script):
+  global ini
+  proxies = {}
+  if "http_proxy" in ini.options("proxy"):
+    proxies['http'] = ini.get("proxy", "http_proxy")
+  if "https_proxy" in ini.options("proxy"):
+    proxies['https'] = ini.get("proxy", "https_proxy")
+  print (proxies)
   server_url = "http://titurel.uedasoft.com/biff/index.test.php"
   now = datetime.datetime.now() # 時刻の取得
   now_string = now.strftime("%Y/%m/%d %H:%M:%S")
   filename = now.strftime("%Y.%m.%d.%H%M%S")+".jpg"
-  take_photo(filename, "video0", "640x480")
+#  take_photo(filename, "video0", "640x480")
+  take_photo(filename, "video0", ini.get("photo", "size"))
   print "take photo end"
   files = {'upfile': open(filename, 'rb')}
   payload = {'usename': 'yes'}
-  r = requests.post(server_url, data=payload, files=files, timeout=10, cert=os.path.dirname(os.path.abspath(__file__))+'/slider.pem', verify=False)
+  r = requests.post(server_url, data=payload, files=files, timeout=10, cert=os.path.dirname(os.path.abspath(__file__))+'/slider.pem', verify=False, proxies=proxies)
 #  command_str = 'curl -F "data=@/home/pi/SCRIPT/avis_courrier/'+filename+'"' + ' -F "usename=yes" http://titurel.uedasoft.com/biff/index.test.php'
 #  p = subprocess.check_call(command_str, shell=True)
   print "photo sent"
