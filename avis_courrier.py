@@ -38,6 +38,7 @@ GPIO.setmode(GPIO.BOARD)
 # 基盤LED の設定
 l = led.LED()
 l.use(0) # green
+l.on(0)
 pi3 or l.use(1) # red
 
 # ライトの設定
