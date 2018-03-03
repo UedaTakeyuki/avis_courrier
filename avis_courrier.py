@@ -29,10 +29,10 @@ configfile = "/boot/avis_courrier.ini"
 ini = ConfigParser.SafeConfigParser()
 ini.read(configfile)
 
-# RPi 3 は LED1(赤LED)を操作できない
+# RPi 3 can't handle LED1(LED)
 pi3 = True if getrpimodel.model() == "3 Model B" else False
 
-# GPIO の設定
+# Use Physical PIN#
 GPIO.setmode(GPIO.BOARD)
 
 # On Board LED setting
