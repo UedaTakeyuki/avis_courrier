@@ -64,7 +64,7 @@ for pin, to, script, pull_up_down, rising_falling in pin_settings["switches"]:
   specs.append({"pin":int(pin), "to":to, "script" :script })
 
 
-def wait2():
+def wait():
   global specs
   while True:
     try:
@@ -79,104 +79,6 @@ def wait2():
       print traceback.format_exc(info[1])
       print traceback.format_exc(info[2])
     time.sleep(2)
-
-def wait():
-  GPIO.setup(37, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-  GPIO.setup(35, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-  GPIO.setup(33, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-  GPIO.setup(31, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-  GPIO.add_event_detect(37, GPIO.FALLING)
-  GPIO.add_event_detect(35, GPIO.FALLING)
-  GPIO.add_event_detect(33, GPIO.FALLING)
-  GPIO.add_event_detect(31, GPIO.FALLING)
-
-  GPIO.setup(12, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-  GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-  GPIO.setup(8, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-  GPIO.add_event_detect(12, GPIO.FALLING)
-  GPIO.add_event_detect(10, GPIO.FALLING)
-  GPIO.add_event_detect(8, GPIO.FALLING)
-
-#  GPIO.setup(28, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-  '''  GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-  GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-  GPIO.setup(22, GPIO.IN, pull_up_down=GPIO.PUD_UP)'''
-#  GPIO.add_event_detect(28, GPIO.FALLING)
-  '''  GPIO.add_event_detect(26, GPIO.FALLING)
-  GPIO.add_event_detect(24, GPIO.FALLING)
-  GPIO.add_event_detect(22, GPIO.FALLING)'''
-  while True:
-    try:
-      if GPIO.event_detected(37):
-        logging.info("detect 37")
-        detect_37()
-      elif GPIO.event_detected(35):
-        logging.info("detect 35")
-        detect_35()
-      elif GPIO.event_detected(33):
-        logging.info("detect 33")
-        detect_33()
-      elif GPIO.event_detected(31):
-        logging.info("detect 31")
-        detect_31()
-      elif GPIO.event_detected(12):
-        logging.info("detect 12")
-        detect_12()
-      elif GPIO.event_detected(10):
-        logging.info("detect 10")
-        detect_10()
-      elif GPIO.event_detected(8):
-        logging.info("detect 8")
-        print("8")
-
-#      elif GPIO.event_detected(28):
-#        print("28")
-      '''      elif GPIO.event_detected(26):
-        logging.info("detect 26")
-        print("26")
-      elif GPIO.event_detected(24):
-        logging.info("detect 24")
-        print("24")
-      elif GPIO.event_detected(22):
-        logging.info("detect 22")
-        print("22")'''
-    except:
-      info=sys.exc_info()
-      print "Unexpected error:"+ traceback.format_exc(info[0])
-      print traceback.format_exc(info[1])
-      print traceback.format_exc(info[2])
-    time.sleep(2)
-
-def detect_37():
-  blink()
-  print("37")
-  avis('zenin', 'send.php')
-  pass
-def detect_35():
-  blink()
-  print("35")
-  avis('koike', 'send.php')
-  pass
-def detect_33():
-  blink()
-  print("33")
-  avis('iwasaki', 'send.php')
-  pass
-def detect_31():
-  blink()
-  print("31")
-  avis('sekine', 'send.php')
-  pass
-def detect_12():
-  blink()
-  print("12")
-  avis('tomari', 'send.php')
-  pass
-def detect_10():
-  print("10")
-  blink()
-  avis('ueda', 'send.test.php')
-#  avis('yamazaki', 'send.php')
 
 def blink():
   l.off(0)
@@ -238,8 +140,8 @@ def fork():
 
   if pid == 0:
 #    wait()
-    wait2()
+    wait()
 
 if __name__ == '__main__':
 #  print fork()
-  wait2()
+  wait()
