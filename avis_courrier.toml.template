@@ -1,0 +1,4 @@
+#          [[pin#, to, script, pull_up_down,rising_falling]]
+switches = [["10", "ueda", "send.test.php","up","falling"],
+           ]
+

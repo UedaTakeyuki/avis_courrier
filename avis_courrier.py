@@ -17,6 +17,7 @@ import requests
 import piserialnumber as ps
 import getrpimodel
 import requests
+import pytoml as toml
 
 import perspective
 
@@ -42,6 +43,41 @@ pi3 or l.use(1) # red
 # ライトの設定
 GPIO.setup(36, GPIO.OUT)
 GPIO.output(36, GPIO.LOW) # 撮影時以外は消灯
+
+## 待受ピンの設定
+specs = []
+PULL_UP_DOWN    = {"up":GPIO.PUD_UP, "down":GPIO.PUD_DOWN}
+RAISING_FALLING = {"rising":GPIO.RISING, "falling":GPIO.FALLING}
+
+tomlfile = '/boot/avis_courrier.toml'
+with open(tomlfile) as fin:
+  pin_settings = toml.load(fin)
+for pin, to, script, pull_up_down, rising_falling in pin_settings["switches"]:
+  print pin
+  print to
+  print script
+  print pull_up_down
+  print rising_falling
+  GPIO.setup(int(pin), GPIO.IN, pull_up_down=PULL_UP_DOWN[pull_up_down])
+  GPIO.add_event_detect(int(pin), RAISING_FALLING[rising_falling])
+  specs.append({"pin":int(pin), "to":to, "script" :script })
+
+
+def wait2():
+  global specs
+  while True:
+    try:
+      for spec in specs:
+        if GPIO.event_detected(spec["pin"]):
+          logging.info("detect " + str(spec["pin"]))
+          blink()
+          avis(spec["to"],spec["script"])
+    except:
+      info=sys.exc_info()
+      print "Unexpected error:"+ traceback.format_exc(info[0])
+      print traceback.format_exc(info[1])
+      print traceback.format_exc(info[2])
+    time.sleep(2)
 
 def wait():
   GPIO.setup(37, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -200,8 +236,9 @@ def fork():
     sys.exit()
 
   if pid == 0:
-    wait()
+#    wait()
+    wait2()
 
 if __name__ == '__main__':
 #  print fork()
-  wait()
+  wait2()
