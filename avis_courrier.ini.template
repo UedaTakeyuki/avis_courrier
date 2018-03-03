@@ -3,6 +3,10 @@
 #http_proxy=
 #https_proxy=
 
+[biff]
+# url of biff service, "/" terminated
+url=http://server.address.com/biff/
+
 [photo]
 # Set picture size
 size=640x480

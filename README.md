@@ -13,4 +13,4 @@ paper mail delivery notification with USB Camera
 4. The photo is transformed by perspective transformation.
 <img src="doc/transformed.jpg" width="75%">  
 
-5. Send notify mail with calling [biff](https://github.com/UedaTakeyuki/biff)
+5. Send notify mail with calling [biff](https://github.com/UedaTakeyuki/biff).

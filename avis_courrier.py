@@ -98,6 +98,7 @@ def take_photo(filename, device, size):
                         int(ini.get("perspective", "depth"))
                         )
   os.remove(filename+'.tmp')
+#  shutil.move(filename+'.tmp', "/boot/DATA/biff/"+filename+'.tmp')
 
 def avis(to, script):
   global ini
@@ -124,7 +125,7 @@ def avis(to, script):
   shutil.move(filename,"/boot/DATA/biff/"+filename)
   print "photo moved"
 
-  server_url = "http://titurel.uedasoft.com/biff/"+script
+  server_url = ini.get("biff", "url")+script
   payload2 = {'to': to, 'filename': filename, 'now': now_string}
   r = requests.post(server_url, data=payload2, timeout=10, cert=os.path.dirname(os.path.abspath(__file__))+'/slider.pem', verify=False)
   print "avis end"
