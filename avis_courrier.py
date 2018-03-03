@@ -1,4 +1,4 @@
-# coding:utf-8 Copy Right Atelier Grenouille © 2018 -
+# coding:utf-8 Copy Right Atelier Ueda Takeyuki © 2018 -
 #
 import os
 import shutil
@@ -35,17 +35,17 @@ pi3 = True if getrpimodel.model() == "3 Model B" else False
 # GPIO の設定
 GPIO.setmode(GPIO.BOARD)
 
-# 基盤LED の設定
+# On Board LED setting
 l = led.LED()
 l.use(0) # green
 l.on(0)
 pi3 or l.use(1) # red
 
-# ライトの設定
+# Camera light setting
 GPIO.setup(36, GPIO.OUT)
-GPIO.output(36, GPIO.LOW) # 撮影時以外は消灯
+GPIO.output(36, GPIO.LOW) # keep tune off without taking photo
 
-## 待受ピンの設定
+## Waiting GPIO Pin setting
 specs = []
 PULL_UP_DOWN    = {"up":GPIO.PUD_UP, "down":GPIO.PUD_DOWN}
 RAISING_FALLING = {"rising":GPIO.RISING, "falling":GPIO.FALLING}
@@ -111,7 +111,6 @@ def avis(to, script):
   now = datetime.datetime.now() # 時刻の取得
   now_string = now.strftime("%Y/%m/%d %H:%M:%S")
   filename = now.strftime("%Y.%m.%d.%H%M%S")+".jpg"
-#  take_photo(filename, "video0", "640x480")
   take_photo(filename, "video0", ini.get("photo", "size"))
   print "take photo end"
   files = {'upfile': open(filename, 'rb')}
@@ -139,9 +138,7 @@ def fork():
     sys.exit()
 
   if pid == 0:
-#    wait()
     wait()
 
 if __name__ == '__main__':
-#  print fork()
   wait()
