@@ -1,6 +1,7 @@
 # avis_courrier
-paper mail delivery notification with USB Camera
+paper mail delivery notification with USB Camera, running on the embeded Linux Board like Raspberry Pi.
 
+## How to work
 1. Put delivered paper mail into the box.
 <img src="doc/ss.2018-03-03 13.29.39.png" width="75%">  
 
@@ -14,3 +15,4 @@ paper mail delivery notification with USB Camera
 <img src="doc/transformed.jpg" width="75%">  
 
 5. Send notify mail with calling [biff](https://github.com/UedaTakeyuki/biff).
+
