@@ -16,3 +16,8 @@ paper mail delivery notification with USB Camera, running on the embeded Linux B
 
 5. Send notify mail with calling [biff](https://github.com/UedaTakeyuki/biff).
 
+## configration
+
+<img src="https://github.com/UedaTakeyuki/biff/blob/master/pic/configration.of.biff&avis_courrier.pages.png">
+
+In above figure, the ***[biff](https://github.com/UedaTakeyuki/biff)*** is a webservice to send notification mail of paper mail delivery.
